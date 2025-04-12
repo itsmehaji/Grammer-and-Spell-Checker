@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Grammar & Spell Checker</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        padding: 30px;
+        background-color: #f8f9fa;
+      }
+      .container {
+        max-width: 700px;
+        margin: auto;
+      }
+      .card {
+        margin-bottom: 20px;
+        border-radius: 15px;
+      }
+      textarea {
+        resize: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center mb-4">📝 Grammar & Spell Checker</h1>
+
+      <form action="/spell" method="post">
+        <div class="card p-4 shadow-sm">
+          <label for="text" class="form-label">Enter your sentence here:</label>
+          <textarea
+            name="text"
+            rows="4"
+            class="form-control mb-3"
+            placeholder="Type something..."
+          >
+{{ request.form.text or "" }}</textarea
+          >
+          <button class="btn btn-primary w-100">Check Text</button>
+        </div>
+      </form>
+
+      {% if corrected_text %}
+      <div class="card p-4 shadow-sm bg-light">
+        <h5 class="mb-2 text-success">✅ Corrected Spelling:</h5>
+        <p>{{ corrected_text }}</p>
+      </div>
+      {% endif %} {% if corrected_grammar %}
+      <div class="card p-4 shadow-sm bg-light">
+        <h5 class="mb-2 text-info">✅ Corrected Grammar:</h5>
+        <p>{{ corrected_grammar }}</p>
+      </div>
+      {% endif %}
+
+      <form action="/grammar" method="post" enctype="multipart/form-data">
+        <div class="card p-4 shadow-sm">
+          <label for="file" class="form-label"
+            >Upload a text file (.txt):</label
+          >
+          <input type="file" name="file" class="form-control mb-3" required />
+          <button class="btn btn-secondary w-100">Check Uploaded File</button>
+        </div>
+      </form>
+
+      {% if corrected_file_text %}
+      <div class="card p-4 shadow-sm bg-light">
+        <h5 class="mb-2 text-success">📝 Corrected File Spelling:</h5>
+        <p>{{ corrected_file_text }}</p>
+      </div>
+      {% endif %} {% if corrected_file_grammar %}
+      <div class="card p-4 shadow-sm bg-light">
+        <h5 class="mb-2 text-info">📝 Corrected File Grammar:</h5>
+        <p>{{ corrected_file_grammar }}</p>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
